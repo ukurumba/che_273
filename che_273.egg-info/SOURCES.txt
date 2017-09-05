@@ -1,0 +1,8 @@
+che_273.egg-info/PKG-INFO
+che_273.egg-info/SOURCES.txt
+che_273.egg-info/dependency_links.txt
+che_273.egg-info/not-zip-safe
+che_273.egg-info/top_level.txt
+tsp/__init__.py
+tsp/tests.py
+tsp/tsp.py

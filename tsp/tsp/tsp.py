@@ -4,7 +4,7 @@ class tsp:
 
 
 
-    def __init__(self,distamce_matrix,init_temp,beta):
+    def __init__(self,distance_matrix,init_temp,beta):
         ''' The tsp class is initialized by specifying as inputs:
 
         Distance matrix: list of lists.
@@ -74,7 +74,7 @@ class tsp:
             new_cost = new_cost - self.dist_mat[node2_neighbors['left']][node2] - self.dist_mat[node2][node2_neighbors['right']]
             new_cost = new_cost + self.dist_mat[node2][node1_neighbor]
             new_cost = new_cost + self.dist_mat[node2_neighbors['left']][node1] + self.dist_mat[node1][node2_neighbors['right']]
-        elif node2 = 0 and (node1 != self.path[-1]):
+        elif node2 == 0 and (node1 != self.path[-1]):
             node2_neighbor = self.path[node1_index+1] 
             node1_neighbors = {'left' : self.path[node1_index-1], 'right': self.path[node1_index+1]}
             new_cost = self.cost - self.dist_mat[node1_neighbors['left']][node1] - self.dist_mat[node1][node1_neighbors['right']] 

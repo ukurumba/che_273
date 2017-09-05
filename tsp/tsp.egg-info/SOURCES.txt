@@ -1,0 +1,8 @@
+tsp/__init__.py
+tsp/tests.py
+tsp/tsp.py
+tsp.egg-info/PKG-INFO
+tsp.egg-info/SOURCES.txt
+tsp.egg-info/dependency_links.txt
+tsp.egg-info/not-zip-safe
+tsp.egg-info/top_level.txt
