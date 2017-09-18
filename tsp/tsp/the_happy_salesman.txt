@@ -1,0 +1,13 @@
+﻿The Happy Salesman
+
+My happy salesman travels the United States as quickly as possible. I implement simulated annealing in my program as a sort of random switching, rather than a random permutation of the space of all paths. So for example if my current path is [1,3,2,0,1] I switch randomly to [1,2,3,0,1] and see whether that path has a lower or higher cost. Then the probability of switching is determined as described in class. 
+
+This makes the algorithm function as a sort of Markov process. We could interpret the problem as a large Markov matrix where each permutation of the space of all possible paths is an element of the matrix  (i.e. element (0,0) is [0,1,2,3,0]). Then we have some probability of switching from every path to every path. Thus simulated annealing estimates the long-run equilibrium probabilities for any path by randomly switching nodes, exploring better paths local to the current path rather than jumping to a completely random path every time (I think this is called the Metropolis-Hastings algorithm? I forget).
+
+A couple features I added are 
+
+1) an ending sequence. This is a greedy algorithm I implement at the end that simply makes the probability of switching go to 0 and runs the program for more iterations. Thus the ending sequence always tries to find the lowest-cost path, so that when we return a final answer it is the lowest-cost path the program found. An alternative would be to just store the lowest-cost path found so far.
+
+2) adaptability of the cities. My program calls out to the Google Distance Matrix API and uses that information to create the distance matrix. So given any set of cities (<= 10 per Google’s restrictions it seems) the program will call out to Google Maps, get a JSON of distance and travel information, and parse that to get the distance matrix. Then I run my program. A lot of the code in the API call and parsing is used verbatim from someone’s code on Github; not trying to take credit for it, it just seems like a useful feature to add to the program. 
+
+

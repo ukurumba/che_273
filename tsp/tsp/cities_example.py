@@ -3,7 +3,7 @@ import json
 import requests
 import sys
 
-print("TSP Problem\n")
+print("\n\n\nTSP Problem\n")
 print("--------------------------------------------------------------\n")
 print("Our goal is to find the shorest path between the given cities.\n")
 print("We do this by using the Simulated Annealing algorithm.\n")
