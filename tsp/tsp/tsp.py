@@ -4,7 +4,7 @@ class tsp:
 
 
 
-    def __init__(self,distance_matrix,init_temp,beta):
+    def __init__(self,distance_matrix,init_temp,beta,debug = False):
         ''' The tsp class is initialized by specifying as inputs:
 
         Distance matrix: list of lists.
@@ -26,18 +26,31 @@ class tsp:
             self.num_nodes = len(self.dist_mat[0])
             self.init_temp = init_temp
             self.beta = beta
+            self.end_run = False
+            self.debug = debug
             
 
-    def find_path_sa(self, num_its = 100):
+    def find_path_sa(self, num_its = 100,end_run_its = 200):
         '''This function finds the shortest path in the travelling salesman problem by implementing the simulated annealing algorithm. Number of iterations defaults to 100 but can be modified by passing in the num_its argument (i.e. tspInstance.find_path_sa(num_its = 1000)).
 
         Returns: List of shortest path.'''
 
         self.path = self.generate_random_path()
-        self.cost = calc_cost()
+        self.cost = self.calc_cost()
         for k in range(num_its):
             try:
-                self.path = self.modify_path()
+                self.k = k
+                self.modify_path(self.choose_nodes())
+            except Exception as error:
+                raise error
+
+        self.end_run = True
+        self.debug = False #never debug end run.
+        print("\n \n \nBEGINNING END RUN ----------------------------------------------------")
+        for k in range(end_run_its):
+            try:
+                self.k = k
+                self.modify_path(self.choose_nodes())
             except Exception as error:
                 raise error
         return self.path
@@ -64,7 +77,8 @@ class tsp:
         return (node1,node2)
 
     def update_path(self,node1,node2):
-
+        if self.debug:
+            print(self.path, " <--- path before update_path")
         node1_index = self.path.index(node1)
         node2_index = self.path.index(node2)
 
@@ -81,6 +95,8 @@ class tsp:
             self.path[-1] = node1
             self.path[node1_index] = node2
 
+        if self.debug:
+            print(self.path, " <--- Path after update_path")
 
     def modify_path(self,nodes):
         node1,node2 = nodes
@@ -108,16 +124,23 @@ class tsp:
             temp_path[node1_index] = node2
             new_cost = self.calc_cost(path=temp_path)
 
-        if self.cost - new_cost > 0: #if new path better than old path
+        if new_cost - self.cost < 0: #if new path better than old 
+            if self.debug:
+                print("\nbetter path used")
             self.update_path(node1,node2)
             self.cost = new_cost
 
         else:
-            T = self.calc_temp(k)
-            prob_of_switch = self.calc_prob_of_switch(self.cost - new_cost,T)
+            T = self.calc_temp(self.k)
+            prob_of_switch = self.calc_prob_of_switch(new_cost - self.cost,T)
             if random.uniform(0,1) <= prob_of_switch: #randomly get number to see whether to switch or not
+                if self.debug:
+                    print("\nworse path used. Prob switch: " + str(prob_of_switch))
                 self.update_path(node1,node2)
                 self.cost = new_cost
+            else:
+                if self.debug:
+                    print("\nworse path not used. Prob switch: " + str(prob_of_switch))
 
     def calc_cost(self,path=[]):
         if not path:
@@ -129,10 +152,19 @@ class tsp:
         
 
     def calc_prob_of_switch(self,delta,T):
+        # delta = new minus old
         #calclates the probability you should switch to the more expensive path
-        return math.exp(-1*delta / T)
+        if self.end_run == True: #if we're doing the final burnoff that is a greedy algorithm. 
+            return -1
+        else:
+            try:
+                return math.exp(-1*delta / T)
+            except OverflowError:
+                if self.debug:
+                    print("Overflow Error")
+                return 0 #if there's an overflow then prob is so small it is effectively 0
     def calc_temp(self,k):
-        return (self.init_temp + self.beta * k)
+        return (max(0.0000000001,self.init_temp + self.beta * k)) #Temperature will never go negative
 
 
     
