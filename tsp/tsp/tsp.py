@@ -46,7 +46,8 @@ class tsp:
 
         self.end_run = True
         self.debug = False #never debug end run.
-        print("\n \n \nBEGINNING END RUN ----------------------------------------------------")
+        if self.debug:
+            print("\n \n \nBEGINNING END RUN ----------------------------------------------------")
         for k in range(end_run_its):
             try:
                 self.k = k
