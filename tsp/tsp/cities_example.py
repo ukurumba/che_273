@@ -83,12 +83,18 @@ else:
 		print("\nNow we call the simulated annealing algorithm to produce the shortest path: \n")
 
 		tsp1 = tsp(dist_mat,500,-1.1)
-		shortest_path = tsp1.find_path_sa(num_its = 1000)
-		cost = tsp1.calc_cost(shortest_path)
+		shortest_path_random = tsp1.find_path_random(num_its=1000)
+		shortest_path_sa = tsp1.find_path_sa(num_its = 1000)
+		cost_random = tsp1.calc_cost(shortest_path_random)
+		cost_sa = tsp1.calc_cost(shortest_path_sa)
 
-		print("\n Final Answer: ")
-		print([origins[i] for i in shortest_path])
-		print("Cost: " + str(cost))
+		print("\n Random Final Answer: ")
+		print([origins[i] for i in shortest_path_random])
+		print("Cost: " + str(cost_random))
+
+		print("\n SA Final Answer: ")
+		print([origins[i] for i in shortest_path_sa])
+		print("Cost: " + str(cost_sa))
 
 
 

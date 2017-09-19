@@ -81,6 +81,15 @@ class TestTSP(unittest.TestCase):
 		print("Final Cost: " + str(cost))
 		self.assertEqual(cost,2+2+12+13)
 
+	def test_random(self):
+		print("\n \n \n BEGINNING FINAL TEST ------------------------ \n \n  \n")
+		tsp1 = tsp([[200,2,300,400],[500,600,2,800],[900,100,110,12],[13,142,153,116]],900,-1.1,debug = True)
+		path = tsp1.find_path_random(num_its = 10000)
+		cost = tsp1.calc_cost(path)
+		print("Final Path: " + str(path))
+		print("Final Cost: " + str(cost))
+		self.assertEqual(cost,2+2+12+13)
+
 
 
 
