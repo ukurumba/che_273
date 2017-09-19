@@ -1,4 +1,5 @@
 tsp/__init__.py
+tsp/cities_example.py
 tsp/tests.py
 tsp/tsp.py
 tsp.egg-info/PKG-INFO

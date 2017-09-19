@@ -56,6 +56,23 @@ class tsp:
                 raise error
         return self.path
 
+    def find_path_random(self, num_its=1000):
+        '''This function finds the shortest path length in the TSP problem by just randomly generating paths and keeping track of the shortest.'''
+        self.path = self.generate_random_path()
+        # print(self.path)
+        # print(self.dist_mat)
+        self.cost = self.calc_cost()
+        for i in range(num_its):
+            self.temppath = self.path
+            self.tempcost = self.cost
+            self.path = self.generate_random_path()
+            self.cost = self.calc_cost()
+            if self.tempcost < self.cost:
+                self.path = self.temppath
+                self.cost = self.tempcost
+        
+        return self.path
+
     def generate_random_path(self):
         available_nodes = [i for i in range(self.num_nodes)]
         path = []
