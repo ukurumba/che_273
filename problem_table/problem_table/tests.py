@@ -22,6 +22,8 @@ class TestTSP(unittest.TestCase):
 		self.assertEqual(Qc,60)
 		self.assertEqual(Qh,20)
 		self.assertEqual(pinch,85)
+
+	
  
 
 
