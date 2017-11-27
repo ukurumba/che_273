@@ -1,5 +1,6 @@
 import sys
 from problem_table import stream,problem_table
+import matplotlib.pyplot as plt 
 
 streams = []
 print("Inputs: ")
@@ -13,5 +14,9 @@ with open(sys.argv[1],'r') as file:
 		streams.append(new_stream)
 
 pt = problem_table(streams)
-Qc,Qh,pinch = pt.calc_vals(debug=True)
+Qc,Qh,pinch, deltaHs, intervalTemps= pt.calc_vals(debug=False,gcc=True)
+
+
+print(len(deltaHs),len(intervalTemps))
+
 

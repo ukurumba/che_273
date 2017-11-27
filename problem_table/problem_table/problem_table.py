@@ -1,14 +1,10 @@
-
-
-
-
 class problem_table:
 
 	def __init__(self,streams):
 		#streams should be a list of streams
 		self.streams = streams
 
-	def calc_vals(self,streams = []):
+	def calc_vals(self,streams = [], debug = False,gcc = False):
 		if not streams:
 			streams = self.streams
 		temps = []
@@ -28,7 +24,8 @@ class problem_table:
 		
 
 		intervals = [(sorted_temps[i],sorted_temps[i+1]) for i in range(len(sorted_temps)-1)]
-		print("Temperature Intervals: ", intervals)
+		if debug:
+			print("Temperature Intervals: ", intervals)
 		interval_cps = [0.0 for i in intervals]
 		interval_deltaHs = [0.0 for i in intervals]
 		for i,interval in zip(range(len(intervals)),intervals):
@@ -47,12 +44,13 @@ class problem_table:
 							interval_cps[i] += stream.Cp
 						elif stream.type == "Cold":
 							interval_cps[i] -= stream.Cp
-
-		print("Cp per interval: ", interval_cps)
+		if debug:
+			print("Cp per interval: ", interval_cps)
 
 		for i in range(len(intervals)):
 			interval_deltaHs[i] += (intervals[i][0] - intervals[i][1])*interval_cps[i] 
-		print("Delta H per interval: ", interval_deltaHs)
+		if debug:
+			print("Delta H per interval: ", interval_deltaHs)
 
 		cascade = 0
 		most_negative = 0
@@ -77,27 +75,29 @@ class problem_table:
 
 		
 		cascade_for_print = Qh_min
-		print("Temp   CP    deltaH    Cascade(Feasible)")
-		print(intervals[0][0])
+		if debug:
+			print("{:6} {:8} {:8} {:8} {:8}".format("Temp","CP","deltaH","infeasible","feasible"))
+			print(intervals[0][0])
 		for i in range(len(intervals)):
 			interval = intervals[i][1]
 			cp = interval_cps[i]
 			dH = interval_deltaHs[i]
 			cascade_for_print += interval_deltaHs[i] 
-			print("{}   {:.3}   {:.3}   {:.3}   {:.3} ".format(interval,cp,dH, cascade_for_print - Qh_min,cascade_for_print))
-			
-
-		print("Qc_min Qh_min T_pinch")
-		print(Qc_min,Qh_min,pinch)
-		return [Qc_min, Qh_min,pinch]
+			print("{:6} {:8.4} {:8.4} {:8.4} {:8.4}".format(interval,cp,dH, cascade_for_print - Qh_min,cascade_for_print))
+				
+		print("{:8} {:8} {:8}".format("Qc_min","Qh_min","T_pinch"))
+		print("{:8.5} {:8.5} {:8.5}".format(Qc_min,Qh_min,pinch))
+		if gcc:
+			return [Qc_min,Qh_min,pinch,interval_deltaHs,intervals]
+		else:
+			return [Qc_min, Qh_min,pinch]
 
 
 class stream:
 	
-	def __init__(self,T_supply,T_final,Cp):
+	def __init__(self,T_supply,T_final,Cp,delta_T=10):
 		#Cp is CP if normal stream, load if column
 		#load is positive for condensers, negative for reboilers 
-		delta_T = 10
 		self.Ts = T_supply
 		self.Tf = T_final
 		
