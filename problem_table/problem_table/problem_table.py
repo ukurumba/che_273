@@ -75,18 +75,18 @@ class problem_table:
 
 		
 		cascade_for_print = Qh_min
-		if debug:
-			print("{:6} {:8} {:8} {:8} {:8}".format("Temp","CP","deltaH","infeasible","feasible"))
-			print(intervals[0][0])
-		for i in range(len(intervals)):
-			interval = intervals[i][1]
-			cp = interval_cps[i]
-			dH = interval_deltaHs[i]
-			cascade_for_print += interval_deltaHs[i] 
-			print("{:6} {:8.4} {:8.4} {:8.4} {:8.4}".format(interval,cp,dH, cascade_for_print - Qh_min,cascade_for_print))
+		# if debug:
+		# 	print("{:6} {:8} {:8} {:8} {:8}".format("Temp","CP","deltaH","infeasible","feasible"))
+		# 	print(intervals[0][0])
+		# for i in range(len(intervals)):
+		# 	interval = intervals[i][1]
+		# 	cp = interval_cps[i]
+		# 	dH = interval_deltaHs[i]
+		# 	cascade_for_print += interval_deltaHs[i] 
+		# 	print("{:6} {:8.4} {:8.4} {:8.4} {:8.4}".format(interval,cp,dH, cascade_for_print - Qh_min,cascade_for_print))
 				
-		print("{:8} {:8} {:8}".format("Qc_min","Qh_min","T_pinch"))
-		print("{:8.5} {:8.5} {:8.5}".format(Qc_min,Qh_min,pinch))
+		# 	print("{:8} {:8} {:8}".format("Qc_min","Qh_min","T_pinch"))
+		# 	print("{:8.5} {:8.5} {:8.5}".format(Qc_min,Qh_min,pinch))
 		if gcc:
 			return [Qc_min,Qh_min,pinch,interval_deltaHs,intervals]
 		else:

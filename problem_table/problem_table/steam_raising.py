@@ -2,6 +2,7 @@ import sys
 from problem_table import stream,problem_table
 import matplotlib.pyplot as plt 
 import numpy as np
+plt.style.use('seaborn')
 
 streams = []
 print("Inputs: ")
@@ -86,6 +87,8 @@ while gcc_crossed(Hwsat,Mw):
 
 print(Hwsat)
 print(Mw_calc(Hwsat)) 
+Mw = Mw_calc(Hwsat)
+
 
 Tpoints = np.linspace(Tstart,Tsat,100)
 H_start = Hstart(Hwsat,Mw_calc(Hwsat))
@@ -97,6 +100,11 @@ HpointsSteam = Hsteam(TpointsSteam,Mw)
 Htransition = np.linspace(Hpoints[-1],HpointsSteam[0],100)
 Ttransition = [Tsat for i in range(100)]
 
+# plt.style('ggplot')
+plt.annotate('Hwsat',xy=(Hwsat,105),xytext=(Hwsat+200,110), arrowprops=dict(facecolor='black',arrowstyle='-|>'))
+plt.annotate('Hssat',xy=(HpointsSteam[0],105),xytext=(HpointsSteam[0],60), arrowprops=dict(facecolor='black',arrowstyle='-|>'))
+plt.annotate('Hstart',xy=(H_start,30),xytext=(H_start-400,35), arrowprops=dict(facecolor='black',arrowstyle='-|>'))
+
 
 plt.plot(enthalpies,temps)
 plt.plot(Hpoints,Tpoints,'r')
@@ -105,7 +113,9 @@ plt.plot(Htransition,Ttransition,'r')
 plt.xlabel("Enthalpy (kW)")
 plt.ylabel("Temperature (Celsius)")
 plt.title("Steam raising plot and GCC")
+plt.savefig("steam_raising.jpg")
 plt.show()
+
 
 
 

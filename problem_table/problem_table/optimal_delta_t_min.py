@@ -2,7 +2,7 @@ import sys
 from problem_table import stream,problem_table
 from scipy import optimize
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+plt.style.use('seaborn')
 import numpy as np
 
 streams = []
@@ -22,19 +22,21 @@ def objective(dTmin):
 		streams.append(new_stream)
 	pt = problem_table(streams) 
 	Qc,Qh,pinch = pt.calc_vals()
-	energy_cost = 300 * 3.6 * 10* (Qc+Qh+2832) #energy cost in $ 2832 is the KW from the unintegrated reboiler that must be considered
+	energy_cost = 300 * 3.6 * 10* (Qh+2832) #energy cost in $ 2832 is the KW from the unintegrated reboiler that must be considered
 	capital_cost = 12.5*10**6 / (dTmin**.05) #capital cost in $
 	total_cost = energy_cost + capital_cost
 	return total_cost
 
 
-# res = optimize.fmin(objective,31)
-# print(res)
 
-dTmin_array = np.linspace(3,40,200)
+
+dTmin_array = np.linspace(3,40,500)
 costs = []
 for i in dTmin_array:
 	costs.append(objective(i))
+
+print("Min Delta T: ",dTmin_array[costs.index(min(costs))], "Min Cost: ", min(costs))
+
 
 plt.plot(dTmin_array,costs,'bo')
 plt.xlabel('Delta T Min (K)')
